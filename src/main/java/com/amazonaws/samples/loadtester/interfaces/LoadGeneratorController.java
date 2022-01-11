@@ -19,13 +19,12 @@ public class LoadGeneratorController {
             @RequestParam(name = "range", defaultValue = "1000", required = false) int range,
             @RequestParam(name = "enableOOM", defaultValue = "false", required = false) boolean enableOOM
     ) {
+        if (count < 1)
+            count = 50;
+        if (range < 100 || range > 100000)
+            range = 1000;
 
-        // 반복 횟수 조정
-        if (count < 1) count = 50;
-        // 피보나치 수 범위 조정
-        if (range < 100 || range > 100000) range = 1000;
-
-        Map<String, Object> jsonMap = new HashMap();
+        Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("_count", count);
         jsonMap.put("_range", range);
 
@@ -49,13 +48,13 @@ public class LoadGeneratorController {
             long maxMem = rt.maxMemory();
             long freeMem = rt.freeMemory();
             double megs = 1048576.0;
-            Map<String, Object> memoryMap = new HashMap();
+            Map<String, Object> memoryMap = new HashMap<>();
             memoryMap.put("total", totalMem + " (" + (long) (totalMem/megs) + " MiB)");
             memoryMap.put("max",   maxMem + " (" + (long) (maxMem/megs) + " MiB)");
             memoryMap.put("free",  freeMem + " (" + (long) (freeMem/megs) + " MiB)");
             memoryMap.put("used",  freeMem + " (" + ( (long) (totalMem/megs) - (long) (freeMem/megs) ) + " MiB)");
 
-            Map<String, Object> infoMap = new HashMap();
+            Map<String, Object> infoMap = new HashMap<>();
             infoMap.put("initNum", initNum);
             infoMap.put("end", fibonacciArr[fibonacciArr.length-1]);
             infoMap.put("memory", memoryMap);
